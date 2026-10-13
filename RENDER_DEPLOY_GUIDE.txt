@@ -1,0 +1,18 @@
+NIHA WEBSITE — RENDER FREE DEPLOYMENT
+
+This package is configured as one Django web service serving the existing React/Vite build.
+
+DEPLOY STEPS
+1. Extract this ZIP.
+2. Push the contents of the NIHA_WEBSITE folder to a GitHub repository (repository root must contain build.sh, render.yaml, backend/, frontend/, and requirements.txt).
+3. In Render, choose New + > Blueprint and connect that repository. Render will detect render.yaml.
+4. Create the service using the Free plan and wait for the build to finish.
+5. Open the generated https://...onrender.com URL. The product API is at /api/products/ and Django admin is at /admin/.
+6. Create an admin account if needed from the Render Shell: cd backend && python manage.py createsuperuser.
+
+IMPORTANT NOTES
+- This is a single service; React API calls use the same-origin /api/ URL.
+- Render free web services can sleep when idle, so the first request may take a little while.
+- SQLite is used by default for a quick demo. Render's filesystem is ephemeral, so changes made through Django admin and other database writes may be lost after a restart/redeploy. For persistent product/admin data, connect a PostgreSQL database and set DATABASE_URL.
+- Set DJANGO_SECRET_KEY in Render environment variables if you later create the service manually; Blueprint generates one automatically.
+- This package excludes the local virtual environment and node_modules to keep the ZIP smaller. The already-built frontend/dist is included, so Render does not need to build React.
